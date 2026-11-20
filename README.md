@@ -4,7 +4,7 @@
 
 WikiNode centralizes internal HR, IT and Finance policies in PostgreSQL. Employees can browse and search articles. Administrators can create, edit and delete categories and articles through a REST API.
 
-**Technology:** Node.js 20+, Express 5, PostgreSQL 15+, raw parameterized SQL using `pg`. No ORM, vector database, LLM, RAG, login system, or unnecessary Phase 2 features are included.
+**Technology:** Node.js 20+, Express 5, PostgreSQL 15+, raw parameterized SQL using `pg`, and a lightweight HTML/CSS/JavaScript frontend served by Express. No ORM, vector database, LLM, RAG, or unnecessary Phase 2 features are included.
 
 ## Database design
 
@@ -56,6 +56,17 @@ npm run demo
 
 `npm run demo` performs real create, read, update, keyword search and delete requests; it cleans up its own temporary records. The three seed categories and sample articles remain available for browsing.
 
+## Browser frontend
+
+While `npm start` is running, open **http://localhost:3000** in your browser.
+
+- Select a category in the sidebar, search by title or content, and open any article to read it.
+- Select **Manage content**, enter the `ADMIN_API_KEY` from your local `.env`, and create, edit, or delete articles and categories.
+- To edit an article, open it and select **Edit article**. To edit a category, use **Manage content → Categories**.
+- Category deletion is intentionally blocked by PostgreSQL while articles still reference that category.
+
+The frontend uses the same `/api/*` endpoints as the terminal demo, so no second server, frontend build tool, or CORS setup is required. The administrator key is held only in the input while the management dialog is open; it is cleared when the dialog closes. **Do not share the `.env` key or deploy the demo application publicly.**
+
 ## API contract
 
 All responses contain `data` (plus `pagination` for lists/search), except successful deletes (HTTP 204). Errors use `{ "error": { "code": "...", "message": "..." } }`.
@@ -104,14 +115,14 @@ Do not commit `.env`; only `.env.example` belongs in Git.
 
 1. Explain the problem: company policies are scattered across teams; WikiNode centralizes them.
 2. Show the ER diagram and the two 3NF tables (`categories`, `articles`) with a restrictive foreign key.
-3. Show `npm test` passing, then start the server and open `/health`.
-4. Run `npm run demo` live. Explain `X-Admin-Key`, CRUD operations and `ILIKE` search.
-5. Show the reported result and explain that temporary demo records were removed.
+3. Show `npm test` passing, start the server, then open `http://localhost:3000` to show the browser interface.
+4. Filter articles by category, search for a keyword, and open an article. Use **Manage content** to create and edit a sample article, then delete it.
+5. Optionally run `npm run demo` in another terminal to show the same REST API and its cleanup.
 6. Mention Phase 2 RAG/semantic search only as future scope; it is **not part of this submission**.
 
 ## Tests
 
-`npm test` exercises the actual CP2 PostgreSQL DDL in an in-memory PostgreSQL engine (PGlite), then tests HTTP routes, authentication, CRUD, search, constraints, SQL parameterization behavior, and CP3 workload rollback. It requires no separate test database.
+`npm test` exercises the actual CP2 PostgreSQL DDL in an in-memory PostgreSQL engine (PGlite), then tests frontend file serving, HTTP routes, authentication, CRUD, search, constraints, SQL parameterization behavior, and CP3 workload rollback. It requires no separate test database.
 
 For an additional real PostgreSQL smoke test on the Mac, run `npm run db:setup`, `npm start`, and `npm run demo` against `wikinode_api` as shown above.
 
@@ -122,10 +133,10 @@ For an additional real PostgreSQL smoke test on the Mac, run `npm run db:setup`,
 | **Navneet Kumar** | Project setup, documentation, automated QA and faculty demo | `package.json`, `package-lock.json`, `.env.example`, `.gitignore`, `README.md`, `tests/api.test.js`, `scripts/demo.mjs` |
 | **Jatasay Khetaan** | Raw PostgreSQL connection and seed/setup scripts | `src/db.js`, `dbms/05_seed.sql`, `scripts/setup-db.mjs` |
 | **Paras Dhankhar** | Express server, admin middleware, errors and categories CRUD | `src/app.js`, `src/server.js`, `src/middleware/`, `src/routes/categories.js` |
-| **Shivang Agarwal** | Articles CRUD, search and input validation | `src/routes/articles.js`, `src/routes/search.js`, `src/lib/validation.js` |
+| **Shivang Agarwal** | Articles CRUD, search, input validation, and basic browser UI | `src/routes/articles.js`, `src/routes/search.js`, `src/lib/validation.js`, `public/` (plus frontend integration and tests) |
 
 Contributors should commit only files they actually worked on and review. Do not change Git author identities to manufacture contributions. Each person's separate ZIP contains their assigned files.
 
 ## Deliberate limits
 
-This is a teaching/demo application, not a public enterprise production system. The shared admin key is appropriate only for a supervised local prototype. Enterprise identity, role-based access, file uploads, vector embeddings, RAG, and a frontend are out of the agreed Phase 1 scope.
+This is a teaching/demo application, not a public enterprise production system. The shared admin key is appropriate only for a supervised local prototype. Enterprise identity, role-based access, file uploads, vector embeddings, and RAG are out of the agreed Phase 1 scope.

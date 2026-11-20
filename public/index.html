@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f7fb" />
+    <meta name="description" content="WikiNode — your team's internal knowledge library." />
+    <title>WikiNode · Knowledge Hub</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" type="module"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="Knowledge navigation">
+        <a class="brand" href="/" aria-label="WikiNode home">
+          <span class="brand-mark" aria-hidden="true">W<span>·</span></span>
+          <span class="brand-name">WikiNode <small>KNOWLEDGE HUB</small></span>
+        </a>
+        <div class="side-section-label">YOUR WORKSPACE</div>
+        <nav id="category-nav" class="category-nav" aria-label="Filter by category">
+          <button class="nav-item is-active" type="button" data-category="" aria-current="page">
+            <span class="nav-symbol all-symbol" aria-hidden="true">▦</span>
+            <span>All articles</span>
+          </button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="help-card">
+            <span class="help-icon" aria-hidden="true">✳</span>
+            <strong>One source of truth.</strong>
+            <p>Find internal HR, IT and Finance guidance in one place.</p>
+          </div>
+          <span class="sidebar-footnote">WikiNode · Team T0109</span>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <span class="breadcrumb">Workspace <span aria-hidden="true">/</span> Knowledge base</span>
+          <button id="open-admin" class="admin-trigger" type="button" aria-haspopup="dialog">
+            <span class="admin-trigger-icon" aria-hidden="true">⚙</span> Manage content
+          </button>
+        </header>
+
+        <div class="page-content">
+          <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+              <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR COMPANY KNOWLEDGE, ORGANIZED</div>
+              <h1 id="hero-title">Find what you need.<br /><span>Get back to work.</span></h1>
+              <p>Policies, processes, and answers from across your organization — all in one easy-to-search space.</p>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <span class="art-back"></span><span class="art-mid"></span><span class="art-front"><span class="art-line long"></span><span class="art-line"></span><span class="art-line short"></span></span>
+              <span class="art-spark spark-one">✦</span><span class="art-spark spark-two">✧</span>
+            </div>
+          </section>
+
+          <section class="browse-section" aria-labelledby="browse-heading">
+            <div class="section-heading-row">
+              <div>
+                <p class="section-eyebrow">EXPLORE THE LIBRARY</p>
+                <h2 id="browse-heading">Browse knowledge</h2>
+              </div>
+              <span id="article-count" class="article-count" aria-live="polite">Loading…</span>
+            </div>
+            <label class="search-box" for="search-input">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+              <input id="search-input" type="search" autocomplete="off" placeholder="Search policies, articles, and guides…" maxlength="200" />
+              <span class="search-hint">Search</span>
+            </label>
+            <div class="filter-line"><span id="active-filter">Showing all articles</span><button type="button" id="clear-filters" hidden>Clear filters ×</button></div>
+            <div id="articles" class="article-grid" aria-live="polite" aria-busy="true"></div>
+            <div class="load-row"><button id="load-more" class="load-more" type="button" hidden>Load more articles <span aria-hidden="true">↓</span></button></div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <dialog id="article-dialog" class="modal article-modal" aria-labelledby="article-title">
+      <div class="modal-header"><span class="modal-overline">KNOWLEDGE ARTICLE</span><button class="icon-close" type="button" data-close="article-dialog" aria-label="Close article">×</button></div>
+      <div class="article-dialog-body">
+        <span id="article-category" class="category-pill"></span>
+        <h2 id="article-title"></h2>
+        <p id="article-meta" class="article-meta"></p>
+        <div id="article-body" class="article-body"></div>
+      </div>
+      <div class="modal-footer"><button id="edit-article" class="button-secondary" type="button">Edit article</button><button class="button-primary" type="button" data-close="article-dialog">Done</button></div>
+    </dialog>
+
+    <dialog id="admin-dialog" class="modal admin-modal" aria-labelledby="admin-title">
+      <div class="modal-header"><div><span class="modal-overline">CONTENT MANAGEMENT</span><h2 id="admin-title">Manage WikiNode</h2></div><button class="icon-close" type="button" data-close="admin-dialog" aria-label="Close admin">×</button></div>
+      <div class="admin-body">
+        <p class="admin-explainer">Create and update articles and categories. Changes are saved to PostgreSQL through the existing API.</p>
+        <label class="field-label" for="admin-key">Administrator API key <span class="required">*</span></label>
+        <input id="admin-key" class="field-control" type="password" autocomplete="off" placeholder="Paste the ADMIN_API_KEY from your .env file" required />
+        <p class="field-help">The key stays in this page's memory and is never saved in your browser storage.</p>
+
+        <div class="admin-tabs" role="tablist" aria-label="Editor type">
+          <button id="article-tab" class="admin-tab is-selected" type="button" role="tab" aria-selected="true" aria-controls="article-panel">Articles</button>
+          <button id="category-tab" class="admin-tab" type="button" role="tab" aria-selected="false" aria-controls="category-panel">Categories</button>
+        </div>
+
+        <section id="article-panel" role="tabpanel" aria-labelledby="article-tab">
+          <div class="editor-heading"><h3 id="article-form-title">New article</h3><button id="reset-article" class="text-button" type="button">+ New article</button></div>
+          <form id="article-form">
+            <label class="field-label" for="article-edit-category">Category</label>
+            <select id="article-edit-category" class="field-control" required></select>
+            <label class="field-label" for="article-edit-title">Title</label>
+            <input id="article-edit-title" class="field-control" type="text" maxlength="200" placeholder="e.g. Remote Work Policy" required />
+            <label class="field-label" for="article-edit-content">Content</label>
+            <textarea id="article-edit-content" class="field-control" rows="7" placeholder="Write the article here…" required></textarea>
+            <div class="form-actions"><button id="delete-article" class="button-danger" type="button" hidden>Delete article</button><button id="save-article" class="button-primary" type="submit">Save article</button></div>
+          </form>
+        </section>
+
+        <section id="category-panel" role="tabpanel" aria-labelledby="category-tab" hidden>
+          <div class="editor-heading"><h3>Category editor</h3></div>
+          <form id="category-form">
+            <label class="field-label" for="category-edit-select">Choose a category to edit</label>
+            <select id="category-edit-select" class="field-control"><option value="">+ Create a new category</option></select>
+            <label class="field-label" for="category-edit-name">Name</label>
+            <input id="category-edit-name" class="field-control" type="text" maxlength="120" placeholder="e.g. Operations" required />
+            <label class="field-label" for="category-edit-description">Description (optional)</label>
+            <textarea id="category-edit-description" class="field-control" rows="3" placeholder="What belongs in this category?"></textarea>
+            <div class="form-actions"><button id="delete-category" class="button-danger" type="button" hidden>Delete category</button><button id="save-category" class="button-primary" type="submit">Save category</button></div>
+          </form>
+        </section>
+        <p id="admin-feedback" class="admin-feedback" role="status" aria-live="polite"></p>
+      </div>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

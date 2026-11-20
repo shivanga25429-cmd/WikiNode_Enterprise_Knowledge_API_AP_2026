@@ -32,6 +32,22 @@ test('health checks a live PostgreSQL database', async () => {
   assert.equal(res.body.status, 'ok');
 });
 
+test('frontend is served from the same Express server as the API', async () => {
+  const home = await api.get('/');
+  assert.equal(home.status, 200);
+  assert.match(home.headers['content-type'], /text\/html/);
+  assert.match(home.text, /WikiNode · Knowledge Hub/);
+  assert.match(home.text, /id="category-nav"/);
+  const css = await api.get('/styles.css');
+  assert.equal(css.status, 200);
+  assert.match(css.headers['content-type'], /text\/css/);
+  const script = await api.get('/app.js');
+  assert.equal(script.status, 200);
+  assert.match(script.headers['content-type'], /javascript/);
+  assert.match(script.text, /\/api\/articles/);
+  assert.equal((await api.get('/api/unknown')).status, 404);
+});
+
 test('seed is idempotent and includes HR, IT and Finance content', async () => {
   await db.exec(await readFile(new URL('../dbms/05_seed.sql', import.meta.url), 'utf8'));
   const cats = await api.get('/api/categories');
