@@ -1,0 +1,32 @@
+=== R2 run 1 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using categories_pkey on categories  (cost=0.15..8.17 rows=1 width=84) (actual time=0.006..0.006 rows=1.00 loops=1)
+   Index Cond: (category_id = 1)
+   Index Searches: 1
+   Buffers: shared hit=2
+ Planning Time: 0.031 ms
+ Execution Time: 0.023 ms
+(6 rows)
+
+=== R2 run 2 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using categories_pkey on categories  (cost=0.15..8.17 rows=1 width=84) (actual time=0.008..0.008 rows=1.00 loops=1)
+   Index Cond: (category_id = 1)
+   Index Searches: 1
+   Buffers: shared hit=2
+ Planning Time: 0.047 ms
+ Execution Time: 0.044 ms
+(6 rows)
+
+=== R2 run 3 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using categories_pkey on categories  (cost=0.15..8.17 rows=1 width=84) (actual time=0.006..0.007 rows=1.00 loops=1)
+   Index Cond: (category_id = 1)
+   Index Searches: 1
+   Buffers: shared hit=2
+ Planning Time: 0.041 ms
+ Execution Time: 0.033 ms
+(6 rows)

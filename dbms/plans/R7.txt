@@ -1,0 +1,80 @@
+=== R7 run 1 ===
+QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=90.02..91.82 rows=720 width=44) (actual time=0.051..0.052 rows=3.00 loops=1)
+   Sort Key: (count(a.article_id)) DESC, c.name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=5
+   ->  HashAggregate  (cost=48.65..55.85 rows=720 width=44) (actual time=0.038..0.042 rows=3.00 loops=1)
+         Group Key: c.name
+         Batches: 1  Memory Usage: 49kB
+         Buffers: shared hit=2
+         ->  Hash Right Join  (cost=26.20..45.05 rows=720 width=40) (actual time=0.027..0.031 rows=4.00 loops=1)
+               Hash Cond: (a.category_id = c.category_id)
+               Buffers: shared hit=2
+               ->  Seq Scan on articles a  (cost=0.00..17.00 rows=700 width=8) (actual time=0.002..0.002 rows=4.00 loops=1)
+                     Buffers: shared hit=1
+               ->  Hash  (cost=17.20..17.20 rows=720 width=36) (actual time=0.018..0.018 rows=3.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on categories c  (cost=0.00..17.20 rows=720 width=36) (actual time=0.006..0.006 rows=3.00 loops=1)
+                           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=13
+ Planning Time: 0.066 ms
+ Execution Time: 0.081 ms
+(22 rows)
+
+=== R7 run 2 ===
+QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=90.02..91.82 rows=720 width=44) (actual time=0.100..0.101 rows=3.00 loops=1)
+   Sort Key: (count(a.article_id)) DESC, c.name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=5
+   ->  HashAggregate  (cost=48.65..55.85 rows=720 width=44) (actual time=0.073..0.080 rows=3.00 loops=1)
+         Group Key: c.name
+         Batches: 1  Memory Usage: 49kB
+         Buffers: shared hit=2
+         ->  Hash Right Join  (cost=26.20..45.05 rows=720 width=40) (actual time=0.052..0.059 rows=4.00 loops=1)
+               Hash Cond: (a.category_id = c.category_id)
+               Buffers: shared hit=2
+               ->  Seq Scan on articles a  (cost=0.00..17.00 rows=700 width=8) (actual time=0.004..0.004 rows=4.00 loops=1)
+                     Buffers: shared hit=1
+               ->  Hash  (cost=17.20..17.20 rows=720 width=36) (actual time=0.034..0.035 rows=3.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on categories c  (cost=0.00..17.20 rows=720 width=36) (actual time=0.011..0.012 rows=3.00 loops=1)
+                           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=13
+ Planning Time: 0.137 ms
+ Execution Time: 0.158 ms
+(22 rows)
+
+=== R7 run 3 ===
+QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=90.02..91.82 rows=720 width=44) (actual time=0.089..0.090 rows=3.00 loops=1)
+   Sort Key: (count(a.article_id)) DESC, c.name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=5
+   ->  HashAggregate  (cost=48.65..55.85 rows=720 width=44) (actual time=0.065..0.072 rows=3.00 loops=1)
+         Group Key: c.name
+         Batches: 1  Memory Usage: 49kB
+         Buffers: shared hit=2
+         ->  Hash Right Join  (cost=26.20..45.05 rows=720 width=40) (actual time=0.046..0.053 rows=4.00 loops=1)
+               Hash Cond: (a.category_id = c.category_id)
+               Buffers: shared hit=2
+               ->  Seq Scan on articles a  (cost=0.00..17.00 rows=700 width=8) (actual time=0.003..0.004 rows=4.00 loops=1)
+                     Buffers: shared hit=1
+               ->  Hash  (cost=17.20..17.20 rows=720 width=36) (actual time=0.028..0.028 rows=3.00 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on categories c  (cost=0.00..17.20 rows=720 width=36) (actual time=0.009..0.010 rows=3.00 loops=1)
+                           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=13
+ Planning Time: 0.110 ms
+ Execution Time: 0.147 ms
+(22 rows)

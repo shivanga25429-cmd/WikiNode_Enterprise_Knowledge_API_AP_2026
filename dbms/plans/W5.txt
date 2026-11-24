@@ -1,0 +1,62 @@
+=== W5 run 1 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on articles a  (cost=0.15..26.97 rows=1 width=84) (actual time=0.036..0.037 rows=1.00 loops=1)
+   Buffers: shared hit=6
+   ->  Nested Loop  (cost=0.15..26.97 rows=1 width=84) (actual time=0.010..0.011 rows=1.00 loops=1)
+         Join Filter: (c.category_id = a.category_id)
+         Buffers: shared hit=3
+         ->  Index Scan using categories_name_key on categories c  (cost=0.15..8.17 rows=1 width=10) (actual time=0.006..0.006 rows=1.00 loops=1)
+               Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=10) (actual time=0.003..0.004 rows=1.00 loops=1)
+               Filter: (title = 'T0109_CP3_DEMO_ARTICLE'::text)
+               Rows Removed by Filter: 4
+               Buffers: shared hit=1
+ Planning Time: 0.054 ms
+ Trigger for constraint articles_category_fk: time=0.031 calls=1
+ Execution Time: 0.093 ms
+(16 rows)
+
+=== W5 run 2 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on articles a  (cost=0.15..26.97 rows=1 width=84) (actual time=0.038..0.040 rows=1.00 loops=1)
+   Buffers: shared hit=6
+   ->  Nested Loop  (cost=0.15..26.97 rows=1 width=84) (actual time=0.013..0.014 rows=1.00 loops=1)
+         Join Filter: (c.category_id = a.category_id)
+         Buffers: shared hit=3
+         ->  Index Scan using categories_name_key on categories c  (cost=0.15..8.17 rows=1 width=10) (actual time=0.005..0.006 rows=1.00 loops=1)
+               Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=10) (actual time=0.005..0.006 rows=1.00 loops=1)
+               Filter: (title = 'T0109_CP3_DEMO_ARTICLE'::text)
+               Rows Removed by Filter: 4
+               Buffers: shared hit=1
+ Planning Time: 0.063 ms
+ Trigger for constraint articles_category_fk: time=0.043 calls=1
+ Execution Time: 0.111 ms
+(16 rows)
+
+=== W5 run 3 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on articles a  (cost=0.15..26.97 rows=1 width=84) (actual time=0.032..0.034 rows=1.00 loops=1)
+   Buffers: shared hit=6
+   ->  Nested Loop  (cost=0.15..26.97 rows=1 width=84) (actual time=0.011..0.012 rows=1.00 loops=1)
+         Join Filter: (c.category_id = a.category_id)
+         Buffers: shared hit=3
+         ->  Index Scan using categories_name_key on categories c  (cost=0.15..8.17 rows=1 width=10) (actual time=0.005..0.005 rows=1.00 loops=1)
+               Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=10) (actual time=0.004..0.005 rows=1.00 loops=1)
+               Filter: (title = 'T0109_CP3_DEMO_ARTICLE'::text)
+               Rows Removed by Filter: 4
+               Buffers: shared hit=1
+ Planning Time: 0.059 ms
+ Trigger for constraint articles_category_fk: time=0.035 calls=1
+ Execution Time: 0.093 ms
+(16 rows)

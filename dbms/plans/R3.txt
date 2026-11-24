@@ -1,0 +1,68 @@
+=== R3 run 1 ===
+QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=78.13..79.88 rows=700 width=120) (actual time=0.036..0.037 rows=4.00 loops=1)
+   Sort Key: a.created_at DESC, a.article_id DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=8
+   ->  Hash Join  (cost=26.20..45.05 rows=700 width=120) (actual time=0.020..0.021 rows=4.00 loops=1)
+         Hash Cond: (a.category_id = c.category_id)
+         Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..17.00 rows=700 width=88) (actual time=0.006..0.006 rows=4.00 loops=1)
+               Buffers: shared hit=1
+         ->  Hash  (cost=17.20..17.20 rows=720 width=36) (actual time=0.009..0.009 rows=3.00 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               Buffers: shared hit=1
+               ->  Seq Scan on categories c  (cost=0.00..17.20 rows=720 width=36) (actual time=0.003..0.003 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=58
+ Planning Time: 0.236 ms
+ Execution Time: 0.051 ms
+(18 rows)
+
+=== R3 run 2 ===
+QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=78.13..79.88 rows=700 width=120) (actual time=0.073..0.075 rows=4.00 loops=1)
+   Sort Key: a.created_at DESC, a.article_id DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=8
+   ->  Hash Join  (cost=26.20..45.05 rows=700 width=120) (actual time=0.040..0.044 rows=4.00 loops=1)
+         Hash Cond: (a.category_id = c.category_id)
+         Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..17.00 rows=700 width=88) (actual time=0.011..0.011 rows=4.00 loops=1)
+               Buffers: shared hit=1
+         ->  Hash  (cost=17.20..17.20 rows=720 width=36) (actual time=0.018..0.018 rows=3.00 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               Buffers: shared hit=1
+               ->  Seq Scan on categories c  (cost=0.00..17.20 rows=720 width=36) (actual time=0.005..0.005 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=58
+ Planning Time: 0.431 ms
+ Execution Time: 0.102 ms
+(18 rows)
+
+=== R3 run 3 ===
+QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=78.13..79.88 rows=700 width=120) (actual time=0.071..0.072 rows=4.00 loops=1)
+   Sort Key: a.created_at DESC, a.article_id DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=8
+   ->  Hash Join  (cost=26.20..45.05 rows=700 width=120) (actual time=0.039..0.042 rows=4.00 loops=1)
+         Hash Cond: (a.category_id = c.category_id)
+         Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..17.00 rows=700 width=88) (actual time=0.010..0.011 rows=4.00 loops=1)
+               Buffers: shared hit=1
+         ->  Hash  (cost=17.20..17.20 rows=720 width=36) (actual time=0.018..0.018 rows=3.00 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 9kB
+               Buffers: shared hit=1
+               ->  Seq Scan on categories c  (cost=0.00..17.20 rows=720 width=36) (actual time=0.006..0.007 rows=3.00 loops=1)
+                     Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=58
+ Planning Time: 0.357 ms
+ Execution Time: 0.100 ms
+(18 rows)

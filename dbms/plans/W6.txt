@@ -1,0 +1,59 @@
+=== W6 run 1 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Delete on articles a  (cost=0.15..26.97 rows=1 width=12) (actual time=0.013..0.014 rows=1.00 loops=1)
+   Buffers: shared hit=5
+   ->  Nested Loop  (cost=0.15..26.97 rows=1 width=12) (actual time=0.009..0.009 rows=1.00 loops=1)
+         Join Filter: (c.category_id = a.category_id)
+         Buffers: shared hit=3
+         ->  Index Scan using categories_name_key on categories c  (cost=0.15..8.17 rows=1 width=10) (actual time=0.004..0.005 rows=1.00 loops=1)
+               Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=10) (actual time=0.004..0.004 rows=1.00 loops=1)
+               Filter: (title = 'T0109_CP3_DEMO_ARTICLE_UPDATED'::text)
+               Rows Removed by Filter: 4
+               Buffers: shared hit=1
+ Planning Time: 0.038 ms
+ Execution Time: 0.022 ms
+(15 rows)
+
+=== W6 run 2 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Delete on articles a  (cost=0.15..26.97 rows=1 width=12) (actual time=0.016..0.018 rows=1.00 loops=1)
+   Buffers: shared hit=5
+   ->  Nested Loop  (cost=0.15..26.97 rows=1 width=12) (actual time=0.012..0.013 rows=1.00 loops=1)
+         Join Filter: (c.category_id = a.category_id)
+         Buffers: shared hit=3
+         ->  Index Scan using categories_name_key on categories c  (cost=0.15..8.17 rows=1 width=10) (actual time=0.005..0.006 rows=1.00 loops=1)
+               Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=10) (actual time=0.005..0.006 rows=1.00 loops=1)
+               Filter: (title = 'T0109_CP3_DEMO_ARTICLE_UPDATED'::text)
+               Rows Removed by Filter: 4
+               Buffers: shared hit=1
+ Planning Time: 0.051 ms
+ Execution Time: 0.029 ms
+(15 rows)
+
+=== W6 run 3 ===
+QUERY PLAN
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Delete on articles a  (cost=0.15..26.97 rows=1 width=12) (actual time=0.014..0.015 rows=1.00 loops=1)
+   Buffers: shared hit=5
+   ->  Nested Loop  (cost=0.15..26.97 rows=1 width=12) (actual time=0.010..0.011 rows=1.00 loops=1)
+         Join Filter: (c.category_id = a.category_id)
+         Buffers: shared hit=3
+         ->  Index Scan using categories_name_key on categories c  (cost=0.15..8.17 rows=1 width=10) (actual time=0.005..0.005 rows=1.00 loops=1)
+               Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+               Index Searches: 1
+               Buffers: shared hit=2
+         ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=10) (actual time=0.004..0.005 rows=1.00 loops=1)
+               Filter: (title = 'T0109_CP3_DEMO_ARTICLE_UPDATED'::text)
+               Rows Removed by Filter: 4
+               Buffers: shared hit=1
+ Planning Time: 0.044 ms
+ Execution Time: 0.024 ms
+(15 rows)

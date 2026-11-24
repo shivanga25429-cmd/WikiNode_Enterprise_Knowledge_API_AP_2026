@@ -1,0 +1,44 @@
+=== R6 run 1 ===
+QUERY PLAN
+---------------------------------------------------------------------------------------------------------------
+ Sort  (cost=18.79..18.80 rows=4 width=88) (actual time=0.010..0.011 rows=1.00 loops=1)
+   Sort Key: created_at DESC, article_id DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=1
+   ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=88) (actual time=0.007..0.008 rows=1.00 loops=1)
+         Filter: (category_id = 1)
+         Rows Removed by Filter: 3
+         Buffers: shared hit=1
+ Planning Time: 0.032 ms
+ Execution Time: 0.019 ms
+(10 rows)
+
+=== R6 run 2 ===
+QUERY PLAN
+---------------------------------------------------------------------------------------------------------------
+ Sort  (cost=18.79..18.80 rows=4 width=88) (actual time=0.009..0.009 rows=1.00 loops=1)
+   Sort Key: created_at DESC, article_id DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=1
+   ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=88) (actual time=0.006..0.007 rows=1.00 loops=1)
+         Filter: (category_id = 1)
+         Rows Removed by Filter: 3
+         Buffers: shared hit=1
+ Planning Time: 0.032 ms
+ Execution Time: 0.017 ms
+(10 rows)
+
+=== R6 run 3 ===
+QUERY PLAN
+---------------------------------------------------------------------------------------------------------------
+ Sort  (cost=18.79..18.80 rows=4 width=88) (actual time=0.006..0.007 rows=1.00 loops=1)
+   Sort Key: created_at DESC, article_id DESC
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=1
+   ->  Seq Scan on articles a  (cost=0.00..18.75 rows=4 width=88) (actual time=0.004..0.005 rows=1.00 loops=1)
+         Filter: (category_id = 1)
+         Rows Removed by Filter: 3
+         Buffers: shared hit=1
+ Planning Time: 0.023 ms
+ Execution Time: 0.013 ms
+(10 rows)

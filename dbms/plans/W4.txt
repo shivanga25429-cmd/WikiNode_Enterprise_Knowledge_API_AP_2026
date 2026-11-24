@@ -1,0 +1,41 @@
+=== W4 run 1 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------
+ Insert on articles  (cost=0.15..8.18 rows=1 width=88) (actual time=0.447..0.448 rows=1.00 loops=1)
+   Buffers: shared hit=14 read=1 dirtied=3
+   ->  Index Scan using categories_name_key on categories  (cost=0.15..8.18 rows=1 width=88) (actual time=0.405..0.406 rows=1.00 loops=1)
+         Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+         Index Searches: 1
+         Buffers: shared hit=12 read=1 dirtied=1
+ Planning Time: 0.022 ms
+ Trigger for constraint articles_category_fk: time=0.100 calls=1
+ Execution Time: 0.558 ms
+(9 rows)
+
+=== W4 run 2 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------
+ Insert on articles  (cost=0.15..8.18 rows=1 width=88) (actual time=0.066..0.067 rows=1.00 loops=1)
+   Buffers: shared hit=15
+   ->  Index Scan using categories_name_key on categories  (cost=0.15..8.18 rows=1 width=88) (actual time=0.030..0.030 rows=1.00 loops=1)
+         Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+         Index Searches: 1
+         Buffers: shared hit=13
+ Planning Time: 0.036 ms
+ Trigger for constraint articles_category_fk: time=0.119 calls=1
+ Execution Time: 0.201 ms
+(9 rows)
+
+=== W4 run 3 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------
+ Insert on articles  (cost=0.15..8.18 rows=1 width=88) (actual time=0.058..0.059 rows=1.00 loops=1)
+   Buffers: shared hit=15
+   ->  Index Scan using categories_name_key on categories  (cost=0.15..8.18 rows=1 width=88) (actual time=0.026..0.026 rows=1.00 loops=1)
+         Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+         Index Searches: 1
+         Buffers: shared hit=13
+ Planning Time: 0.031 ms
+ Trigger for constraint articles_category_fk: time=0.102 calls=1
+ Execution Time: 0.179 ms
+(9 rows)

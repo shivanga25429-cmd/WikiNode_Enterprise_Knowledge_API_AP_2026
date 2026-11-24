@@ -1,0 +1,32 @@
+=== W1 run 1 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------
+ Insert on categories  (cost=0.00..0.02 rows=1 width=84) (actual time=0.136..0.136 rows=1.00 loops=1)
+   Buffers: shared hit=28 dirtied=3
+   ->  Result  (cost=0.00..0.02 rows=1 width=84) (actual time=0.054..0.054 rows=1.00 loops=1)
+         Buffers: shared hit=12 dirtied=1
+ Planning Time: 0.013 ms
+ Execution Time: 0.148 ms
+(6 rows)
+
+=== W1 run 2 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------
+ Insert on categories  (cost=0.00..0.02 rows=1 width=84) (actual time=0.200..0.201 rows=1.00 loops=1)
+   Buffers: shared hit=28
+   ->  Result  (cost=0.00..0.02 rows=1 width=84) (actual time=0.057..0.057 rows=1.00 loops=1)
+         Buffers: shared hit=12
+ Planning Time: 0.013 ms
+ Execution Time: 0.218 ms
+(6 rows)
+
+=== W1 run 3 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------
+ Insert on categories  (cost=0.00..0.02 rows=1 width=84) (actual time=0.167..0.168 rows=1.00 loops=1)
+   Buffers: shared hit=28
+   ->  Result  (cost=0.00..0.02 rows=1 width=84) (actual time=0.048..0.048 rows=1.00 loops=1)
+         Buffers: shared hit=12
+ Planning Time: 0.013 ms
+ Execution Time: 0.182 ms
+(6 rows)

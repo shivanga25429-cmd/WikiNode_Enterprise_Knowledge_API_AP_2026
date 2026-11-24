@@ -1,0 +1,44 @@
+=== W2 run 1 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------
+ Update on categories  (cost=0.15..8.17 rows=1 width=46) (actual time=0.051..0.052 rows=1.00 loops=1)
+   Buffers: shared hit=8
+   ->  Index Scan using categories_name_key on categories  (cost=0.15..8.17 rows=1 width=46) (actual time=0.004..0.005 rows=1.00 loops=1)
+         Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.031 ms
+ Execution Time: 0.183 ms
+(10 rows)
+
+=== W2 run 2 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------
+ Update on categories  (cost=0.15..8.17 rows=1 width=46) (actual time=0.066..0.067 rows=1.00 loops=1)
+   Buffers: shared hit=8
+   ->  Index Scan using categories_name_key on categories  (cost=0.15..8.17 rows=1 width=46) (actual time=0.006..0.007 rows=1.00 loops=1)
+         Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.037 ms
+ Execution Time: 0.195 ms
+(10 rows)
+
+=== W2 run 3 ===
+QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------
+ Update on categories  (cost=0.15..8.17 rows=1 width=46) (actual time=0.067..0.068 rows=1.00 loops=1)
+   Buffers: shared hit=8
+   ->  Index Scan using categories_name_key on categories  (cost=0.15..8.17 rows=1 width=46) (actual time=0.007..0.008 rows=1.00 loops=1)
+         Index Cond: (name = 'T0109_CP3_DEMO_CATEGORY'::text)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.043 ms
+ Execution Time: 0.193 ms
+(10 rows)

@@ -1,0 +1,44 @@
+=== R1 run 1 ===
+QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------
+ Sort  (cost=51.37..53.17 rows=720 width=84) (actual time=0.035..0.036 rows=3.00 loops=1)
+   Sort Key: name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=4 dirtied=1
+   ->  Seq Scan on categories  (cost=0.00..17.20 rows=720 width=84) (actual time=0.017..0.017 rows=3.00 loops=1)
+         Buffers: shared hit=1 dirtied=1
+ Planning:
+   Buffers: shared hit=109
+ Planning Time: 0.849 ms
+ Execution Time: 0.049 ms
+(10 rows)
+
+=== R1 run 2 ===
+QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------
+ Sort  (cost=51.37..53.17 rows=720 width=84) (actual time=0.075..0.076 rows=3.00 loops=1)
+   Sort Key: name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=4
+   ->  Seq Scan on categories  (cost=0.00..17.20 rows=720 width=84) (actual time=0.027..0.028 rows=3.00 loops=1)
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=109
+ Planning Time: 0.794 ms
+ Execution Time: 0.118 ms
+(10 rows)
+
+=== R1 run 3 ===
+QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------
+ Sort  (cost=51.37..53.17 rows=720 width=84) (actual time=0.045..0.046 rows=3.00 loops=1)
+   Sort Key: name
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=4
+   ->  Seq Scan on categories  (cost=0.00..17.20 rows=720 width=84) (actual time=0.015..0.016 rows=3.00 loops=1)
+         Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=109
+ Planning Time: 0.534 ms
+ Execution Time: 0.065 ms
+(10 rows)
