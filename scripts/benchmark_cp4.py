@@ -15,6 +15,8 @@ WORKLOAD = ROOT / "dbms/04_queries.sql"
 PLANS = ROOT / "dbms/plans"
 REPORT = ROOT / "dbms/05_query_timings.md"
 IDS = [f"R{i}" for i in range(1, 8)] + [f"W{i}" for i in range(1, 7)]
+# W3 deletes the demo category; run it only after W4-W6 finish using that category.
+EXECUTION_ORDER = [f"R{i}" for i in range(1, 8)] + ["W1", "W2", "W4", "W5", "W6", "W3"]
 MARKER = re.compile(r"^-- @(R[1-7]|W[1-6]|END)$")
 TIME = re.compile(r"Execution Time:\s*([\d.]+)\s*ms")
 
@@ -45,7 +47,7 @@ def read_queries():
 
 def benchmark_run(db, queries):
     parts = [r"\set ON_ERROR_STOP on", "BEGIN;", "SET LOCAL search_path TO wikinode;"]
-    for key in IDS:
+    for key in EXECUTION_ORDER:
         parts.extend([r"\echo AP_START_" + key,
                       "EXPLAIN (ANALYZE, BUFFERS) " + queries[key],
                       r"\echo AP_STOP_" + key])
@@ -61,6 +63,8 @@ def benchmark_run(db, queries):
         if p.stdout.count(beginning) != 1 or p.stdout.count(ending) != 1:
             raise ValueError("Cannot isolate plan for " + key)
         plan = p.stdout.split(beginning, 1)[1].split(ending, 1)[0].strip()
+        # psql aligns QUERY PLAN headings with spaces; keep evidence readable and Git-clean.
+        plan = "\n".join(line.rstrip() for line in plan.splitlines())
         times = TIME.findall(plan)
         if len(times) != 1:
             raise ValueError(key + ": expected one real Execution Time")
@@ -93,6 +97,7 @@ def main():
         "- Execute seven reads and six writes, in dependency-preserving order, three times.",
         "- Capture real PostgreSQL EXPLAIN (ANALYZE, BUFFERS) execution plans.",
         "- Every pass is enclosed in BEGIN / ROLLBACK, so example writes do not persist.",
+        "- Write execution order is W1, W2, W4, W5, W6, W3 to preserve category dependencies.",
         "- Times depend on actual local PostgreSQL data, hardware, and caches.",
         "", "## Measured results", "",
         "| Query | Type | Run 1 (ms) | Run 2 (ms) | Run 3 (ms) | Average (ms) | Median (ms) | Plan |",
