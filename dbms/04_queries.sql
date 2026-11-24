@@ -10,6 +10,7 @@
 BEGIN;
 
 -- @R1
+-- READ
 -- List all categories alphabetically.
 
 SELECT
@@ -22,6 +23,7 @@ FROM wikinode.categories
 ORDER BY name ASC;
 
 -- @R2
+-- READ
 -- Retrieve a category by its primary key.
 -- Example parameter: category_id = 1
 
@@ -35,6 +37,7 @@ FROM wikinode.categories
 WHERE category_id = 1;
 
 -- @R3
+-- READ
 -- List articles with their categories.
 SELECT
     a.article_id,
@@ -50,6 +53,7 @@ INNER JOIN wikinode.categories AS c
 ORDER BY a.created_at DESC, a.article_id DESC;
 
 -- @R4
+-- READ
 -- Retrieve one article by its primary key.
 -- Demonstration value: article_id = 1. Bind this value in application code.
 SELECT
@@ -66,6 +70,7 @@ INNER JOIN wikinode.categories AS c
 WHERE a.article_id = 1;
 
 -- @R5
+-- READ
 -- Search article titles and content case-insensitively.
 -- Demonstration keyword: policy. Bind it in application code.
 SELECT
@@ -81,6 +86,7 @@ WHERE a.title ILIKE '%policy%'
 ORDER BY a.updated_at DESC, a.article_id DESC;
 
 -- @R6
+-- READ
 -- Retrieve articles belonging to one category.
 -- Demonstration value: category_id = 1. Bind this value in application code.
 SELECT
@@ -95,6 +101,7 @@ WHERE a.category_id = 1
 ORDER BY a.created_at DESC, a.article_id DESC;
 
 -- @R7
+-- READ
 -- Count articles belonging to each category.
 -- Include categories containing zero articles.
 
@@ -114,12 +121,14 @@ ORDER BY
 
 -- WRITE DEMO: execute in the order shown to satisfy foreign-key dependencies.
 -- @W1
+-- WRITE
 -- Create a category (Jatasay's W1, using rollback-safe demo data).
 INSERT INTO wikinode.categories (name, description)
 VALUES ('T0109_CP3_DEMO_CATEGORY', 'Temporary category for CP3 demonstration')
 RETURNING category_id, name, description, created_at, updated_at;
 
 -- @W2
+-- WRITE
 -- Update the category, refreshing updated_at (Jatasay's W2).
 UPDATE wikinode.categories
 SET description = 'Updated CP3 demonstration category',
@@ -128,6 +137,7 @@ WHERE name = 'T0109_CP3_DEMO_CATEGORY'
 RETURNING category_id, name, description, updated_at;
 
 -- @W4
+-- WRITE
 -- Create an article in the category just inserted (Paras's W4).
 INSERT INTO wikinode.articles (category_id, title, content)
 SELECT category_id, 'T0109_CP3_DEMO_ARTICLE', 'Sample employee leave policy for CP3 tests.'
@@ -135,27 +145,35 @@ FROM wikinode.categories WHERE name = 'T0109_CP3_DEMO_CATEGORY'
 RETURNING article_id, category_id, title, content, created_at, updated_at;
 
 -- @W5
+-- WRITE
 -- Update only that demonstration article (Paras's W5).
-UPDATE wikinode.articles
+UPDATE wikinode.articles AS a
 SET title = 'T0109_CP3_DEMO_ARTICLE_UPDATED',
     content = 'Revised sample employee leave policy.',
     updated_at = CURRENT_TIMESTAMP
-WHERE title = 'T0109_CP3_DEMO_ARTICLE'
-  AND category_id = (SELECT category_id FROM wikinode.categories WHERE name = 'T0109_CP3_DEMO_CATEGORY')
-RETURNING article_id, category_id, title, content, updated_at;
+FROM wikinode.categories AS c
+WHERE a.category_id = c.category_id
+  AND a.title = 'T0109_CP3_DEMO_ARTICLE'
+  AND c.name = 'T0109_CP3_DEMO_CATEGORY'
+RETURNING a.article_id, a.category_id, a.title, a.content, a.updated_at;
 
 -- @W6
+-- WRITE
 -- Delete only the demonstration article (Paras's W6).
-DELETE FROM wikinode.articles
-WHERE title = 'T0109_CP3_DEMO_ARTICLE_UPDATED'
-  AND category_id = (SELECT category_id FROM wikinode.categories WHERE name = 'T0109_CP3_DEMO_CATEGORY')
-RETURNING article_id, title;
+DELETE FROM wikinode.articles AS a
+USING wikinode.categories AS c
+WHERE a.category_id = c.category_id
+  AND a.title = 'T0109_CP3_DEMO_ARTICLE_UPDATED'
+  AND c.name = 'T0109_CP3_DEMO_CATEGORY'
+RETURNING a.article_id, a.title;
 
 -- @W3
+-- WRITE
 -- Delete the demonstration category only if unused (Jatasay's W3).
 DELETE FROM wikinode.categories AS c
 WHERE c.name = 'T0109_CP3_DEMO_CATEGORY'
   AND NOT EXISTS (SELECT 1 FROM wikinode.articles AS a WHERE a.category_id = c.category_id)
 RETURNING c.category_id, c.name;
 
+-- @END
 ROLLBACK;
