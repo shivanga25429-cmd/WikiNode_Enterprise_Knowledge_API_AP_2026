@@ -24,6 +24,10 @@ def read_queries():
         m = MARKER.fullmatch(line)
         if m:
             if active in IDS:
+                # Ignore comment-only or empty lines after the SQL terminator.
+                # R7 is followed by a '-- WRITE DEMO' section heading.
+                while lines and (not lines[-1].strip() or lines[-1].lstrip().startswith("--")):
+                    lines.pop()
                 result[active] = "\n".join(lines).strip()
             active, lines = m.group(1), []
             if active == "END":
